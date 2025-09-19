@@ -1,1 +1,1 @@
-export interface UseCase<I, O> { execute(input: I): Promise<O>; }
+export interface UseCase<I, O> { execute(input: I, ...inputs: any): Promise<O>; }
