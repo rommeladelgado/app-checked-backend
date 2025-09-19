@@ -11,11 +11,16 @@ firebase-debug.*.log*
 
 # Dependency directories
 node_modules/
+.env
+lib
+/.idea
+/.idea/*
 
 # Optional npm cache directory
 .npm
 
 # Optional eslint cache
 .eslintcache
-/.idea
-/.idea/*
+
+package-lock.json
+.eslintrc.js
