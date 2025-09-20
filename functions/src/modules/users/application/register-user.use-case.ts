@@ -4,7 +4,7 @@ import {UserRepository} from "../domain/user-repository";
 import {Email} from "../domain/entities/email";
 import {Password} from "../domain/entities/password";
 import {User} from "../domain/entities/user";
-import {UseCase} from "../../../shared/application/use-case";
+import {UseCase} from "@src/shared/application/use-case";
 export class RegisterUserUseCase
 implements UseCase<RegisterUserRequest, RegisterUserResponse>{
   constructor(private readonly userRepository: UserRepository) {}
@@ -13,7 +13,7 @@ implements UseCase<RegisterUserRequest, RegisterUserResponse>{
     const emailValueObject = new Email(request.email);
 
     const existing = await this.userRepository.findByEmail(emailValueObject);
-    if (existing) throw new Error("Task already exists");
+    if (existing) throw new Error("User already exists");
 
     const password = await Password.createPlain(request.password);
 
