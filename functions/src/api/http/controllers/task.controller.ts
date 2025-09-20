@@ -9,7 +9,7 @@ import {UpdateTaskUseCase}
 import {FindByIdTaskUseCase}
   from "../../../modules/tasks/application/find-by-id.use-case";
 import {SearchTaskUseCase}
-  from "../../../modules/tasks/application/search-task-use-case";
+  from "../../../modules/tasks/application/search-task.use-case";
 import {RemoveTaskUseCase}
   from "../../../modules/tasks/application/remove-task.use-case";
 

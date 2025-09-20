@@ -33,21 +33,21 @@ export class UserRepositoryImpl implements UserRepository {
   }
 
   async save(user: User): Promise<User | null> {
-    const documentReference = await this.collection
-      .add({
-        email: user.email.getValue(),
-        password: user.password.getValue(),
-        createdAt: FieldValue.serverTimestamp(),
-      });
+    try {
+      const documentReference = await this.collection
+        .add({
+          email: user.email.getValue(),
+          password: user.password.getValue(),
+          createdAt: FieldValue.serverTimestamp(),
+        });
 
-
-    const snapShot = await documentReference.get();
-    const data = snapShot.data();
-
-    return User.rehydrate(
-      documentReference.id,
-      new Email(data.email),
-      new Password(data.password.toString())
-    );
+      return User.rehydrate(
+        documentReference.id,
+        user.email,
+        user.password,
+      );
+    } catch (ex) {
+      return null;
+    }
   }
 }
