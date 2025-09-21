@@ -1,4 +1,7 @@
-import {initializeTestEnvironment, RulesTestEnvironment} from "@firebase/rules-unit-testing";
+import {
+  initializeTestEnvironment,
+  RulesTestEnvironment,
+} from "@firebase/rules-unit-testing";
 
 let testEnv: RulesTestEnvironment;
 

@@ -1,16 +1,24 @@
 import * as admin from "firebase-admin";
-import {db} from "../../../../src/infra/db/firestore";
+import {db} from "@src/infra/db/firestore";
 import {
   TaskRepositoryImpl,
-} from "../../../../src/modules/tasks/infrastructure/task-repository-impl";
-import {Email} from "../../../../src/modules/users/domain/entities/email";
-import {Password} from "../../../../src/modules/users/domain/entities/password";
-import {User} from "../../../../src/modules/users/domain/entities/user";
-import {Task} from "../../../../src/modules/tasks/domain/entities/task";
-import {UserRepositoryImpl} from "../../../../src/modules/users/infrastructure/user-repository-impl";
-import {CreateTaskRequest} from "../../../../src/modules/tasks/application/models/create-task-request";
-import {UpdateTaskRequest} from "../../../../src/modules/tasks/application/models/update-task-request";
-import {TaskRepository} from "../../../../src/modules/tasks/domain/task-repository";
+} from "@src/modules/tasks/infrastructure/task-repository-impl";
+import {Email} from "@src/modules/users/domain/entities/email";
+import {Password} from "@src/modules/users/domain/entities/password";
+import {User} from "@src/modules/users/domain/entities/user";
+import {Task} from "@src/modules/tasks/domain/entities/task";
+import {
+  UserRepositoryImpl,
+} from "@src/modules/users/infrastructure/user-repository-impl";
+import {
+  CreateTaskRequest,
+} from "@src/modules/tasks/application/models/create-task-request";
+import {
+  UpdateTaskRequest,
+} from "@src/modules/tasks/application/models/update-task-request";
+import {
+  TaskRepository,
+} from "@src/modules/tasks/domain/task-repository";
 if (!admin.app.length) {
   admin.initializeApp({projectId: "tests"});
 }

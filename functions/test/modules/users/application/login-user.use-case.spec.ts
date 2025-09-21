@@ -1,5 +1,7 @@
 import {UserRepository} from "@src/modules/users/domain/user-repository";
-import {LoginUserUseCase} from "@src/modules/users/application/login-user.use-case";
+import {
+  LoginUserUseCase,
+} from "@src/modules/users/application/login-user.use-case";
 import {Email} from "@src/modules/users/domain/entities/email";
 import {Password} from "@src/modules/users/domain/entities/password";
 import {User} from "@src/modules/users/domain/entities/user";

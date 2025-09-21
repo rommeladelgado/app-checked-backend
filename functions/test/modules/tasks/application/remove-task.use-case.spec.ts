@@ -1,5 +1,7 @@
 import {TaskRepository} from "@src/modules/tasks/domain/task-repository";
-import {RemoveTaskUseCase} from "@src/modules/tasks/application/remove-task.use-case";
+import {
+  RemoveTaskUseCase,
+} from "@src/modules/tasks/application/remove-task.use-case";
 
 describe("RemoveTaskUseCase", () => {
   let repo: jest.Mocked<TaskRepository>;

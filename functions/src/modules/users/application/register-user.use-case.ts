@@ -6,7 +6,7 @@ import {Password} from "../domain/entities/password";
 import {User} from "../domain/entities/user";
 import {UseCase} from "@src/shared/application/use-case";
 export class RegisterUserUseCase
-implements UseCase<RegisterUserRequest, RegisterUserResponse>{
+implements UseCase<RegisterUserRequest, RegisterUserResponse> {
   constructor(private readonly userRepository: UserRepository) {}
 
   async execute(request: RegisterUserRequest): Promise<RegisterUserResponse> {

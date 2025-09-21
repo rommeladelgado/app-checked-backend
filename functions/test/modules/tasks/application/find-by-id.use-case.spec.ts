@@ -1,5 +1,7 @@
 import {TaskRepository} from "@src/modules/tasks/domain/task-repository";
-import {FindByIdTaskUseCase} from "@src/modules/tasks/application/find-by-id.use-case";
+import {
+  FindByIdTaskUseCase,
+} from "@src/modules/tasks/application/find-by-id.use-case";
 import {Task} from "@src/modules/tasks/domain/entities/task";
 
 

@@ -1,6 +1,8 @@
 
 import {UseCase} from "@src/shared/application/use-case";
-import {CreateTaskRequest} from "@src/modules/tasks/application/models/create-task-request";
+import {
+  CreateTaskRequest,
+} from "@src/modules/tasks/application/models/create-task-request";
 import {TaskRepository} from "@src/modules/tasks/domain/task-repository";
 
 

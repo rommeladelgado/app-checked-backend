@@ -1,5 +1,7 @@
 import {TaskRepository} from "@src/modules/tasks/domain/task-repository";
-import {SearchTaskUseCase} from "@src/modules/tasks/application/search-task.use-case";
+import {
+  SearchTaskUseCase,
+} from "@src/modules/tasks/application/search-task.use-case";
 import {Task} from "@src/modules/tasks/domain/entities/task";
 
 

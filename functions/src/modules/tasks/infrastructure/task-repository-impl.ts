@@ -3,13 +3,10 @@ import {TaskRepository} from "../domain/task-repository";
 import {Task} from "../domain/entities/task";
 import {CreateTaskRequest} from "../application/models/create-task-request";
 import {UpdateTaskRequest} from "../application/models/update-task-request";
-import {db} from "../../../infra/db/firestore";
+import {db} from "@src/infra/db/firestore";
 import {firestore} from "firebase-admin";
 
 export class TaskRepositoryImpl implements TaskRepository {
-  constructor() {
-  }
-
   private getTaskCollection(userId: string): firestore.CollectionReference {
     return db.collection("users").doc(userId).collection("tasks");
   }

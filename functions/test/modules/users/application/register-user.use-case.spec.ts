@@ -2,7 +2,9 @@ import {UserRepository} from "@src/modules/users/domain/user-repository";
 import {Email} from "@src/modules/users/domain/entities/email";
 import {Password} from "@src/modules/users/domain/entities/password";
 import {User} from "@src/modules/users/domain/entities/user";
-import {RegisterUserUseCase} from "@src/modules/users/application/register-user.use-case";
+import {
+  RegisterUserUseCase,
+} from "@src/modules/users/application/register-user.use-case";
 
 
 jest.mock("@src/modules/users/domain/entities/password");
@@ -28,12 +30,8 @@ describe("RegisterUserUseCase", () => {
       getValue: () => "hashed-123",
     });
 
-
-    const createdUsers: User[] = [];
     repo.save.mockImplementation(async (u: User) => {
-      (u as any).id = (u as any).id ?? "u1";
-      createdUsers.push(u);
-      return u;
+      return User.rehydrate(u.id ?? "u1", u.email, u.password);
     });
 
     const result =
@@ -56,8 +54,9 @@ describe("RegisterUserUseCase", () => {
   });
 
   it("throws if email already exists", async () => {
-    const existingUser =
-        new User(new Email("test@mail.com"), {getValue: () => "hash"} as any);
+    const email = new Email("test@mail.com");
+    const password = new Password("has123");
+    const existingUser = new User(email, password);
     repo.findByEmail.mockResolvedValue(existingUser);
 
 

@@ -1,6 +1,10 @@
 import {TaskRepository} from "@src/modules/tasks/domain/task-repository";
-import {UpdateTaskUseCase} from "@src/modules/tasks/application/update-task.use-case";
-import {UpdateTaskRequest} from "@src/modules/tasks/application/models/update-task-request";
+import {
+  UpdateTaskUseCase,
+} from "@src/modules/tasks/application/update-task.use-case";
+import {
+  UpdateTaskRequest,
+} from "@src/modules/tasks/application/models/update-task-request";
 import {Task} from "@src/modules/tasks/domain/entities/task";
 
 

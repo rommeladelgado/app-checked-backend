@@ -1,8 +1,11 @@
 import {TaskRepository} from "@src/modules/tasks/domain/task-repository";
-import {CreateTaskUseCase} from "@src/modules/tasks/application/create-task.use-case";
-import {CreateTaskRequest} from "@src/modules/tasks/application/models/create-task-request";
-
-
+import {
+  CreateTaskUseCase,
+} from "@src/modules/tasks/application/create-task.use-case";
+import {
+  CreateTaskRequest,
+} from "@src/modules/tasks/application/models/create-task-request";
+import {Task} from "@src/modules/tasks/domain/entities/task";
 
 describe("CreateTaskUseCase", () => {
   let repo: jest.Mocked<TaskRepository>;
@@ -28,12 +31,11 @@ describe("CreateTaskUseCase", () => {
     };
     const userId = "user-123";
 
-    repo.create.mockResolvedValueOnce({} as any);
+    repo.create.mockResolvedValueOnce({} as Task);
 
     await useCase.execute(request, userId);
 
     expect(repo.create).toHaveBeenCalledTimes(1);
     expect(repo.create).toHaveBeenCalledWith(request, userId);
   });
-
 });
