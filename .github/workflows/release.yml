@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ release/stable ]
+
+jobs:
+  develop:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: functions
+
+    env:
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      REFRESH_EXPIRES_IN: ${{ secrets.REFRESH_EXPIRES_IN }}
+      REFRESH_SECRET: ${{ secrets.REFRESH_SECRET }}
+      JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: functions/package-lock.json
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint --if-present
+
+      - name: Build (type-check)
+        run: npm run build
+
+      - name: Install Firebase CLI
+        run: npm i -g firebase-tools
+
+      - name: Run tests with Firebase Emulators
+        run: npm run test:emulators
+
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: functions/coverage
+  deploy:
+    needs: develop
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    defaults:
+      run:
+        working-directory: functions
+    env:
+      PROJECT_ID: ${{ secrets.PROJECT_ID }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: functions/package-lock.json
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build (ensure lib/* exists)
+        run: npm run build
+
+      - name: Install Firebase CLI
+        run: npm i -g firebase-tools
+
+      - name: Deploy Functions
+        run: firebase deploy --only functions -P "$PROJECT_ID" --non-interactive --token "$FIREBASE_TOKEN"
