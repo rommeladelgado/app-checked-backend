@@ -35,7 +35,7 @@ jobs:
         run: npm i -g firebase-tools
 
       - name: Run tests with Firebase Emulators
-        run: npm run test:emu
+        run: npm run test:emulators
 
       - name: Build (type-check)
         run: npm run build
