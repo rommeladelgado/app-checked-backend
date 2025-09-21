@@ -86,5 +86,13 @@ jobs:
       - name: Install Firebase CLI
         run: npm i -g firebase-tools
 
+      - name: Create .env for tests
+        run: |
+          cat > functions/.env <<'EOF'
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          REFRESH_SECRET=${{ secrets.REFRESH_SECRET }}
+          JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}
+          REFRESH_EXPIRES_IN=${{ secrets.REFRESH_EXPIRES_IN }}
+          EOF
       - name: Deploy Functions
         run: firebase deploy --only functions -P "$PROJECT_ID" --non-interactive --token "$FIREBASE_TOKEN"
