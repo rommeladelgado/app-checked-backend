@@ -31,17 +31,14 @@ jobs:
       - name: Lint
         run: npm run lint --if-present
 
-      - name: Lint
+      - name: Build (type-check)
         run: npm run build
-        
+
       - name: Install Firebase CLI
         run: npm i -g firebase-tools
 
       - name: Run tests with Firebase Emulators
         run: npm run test:emulators
-
-      - name: Build (type-check)
-        run: npm run build
 
       - name: Upload coverage
         if: always()
