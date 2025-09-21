@@ -80,12 +80,6 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Build (ensure lib/* exists)
-        run: npm run build && cd src
-
-      - name: Install Firebase CLI
-        run: npm i -g firebase-tools
-
       - name: Create .env for tests
         run: |
           cat > functions/.env <<'EOF'
@@ -94,5 +88,12 @@ jobs:
           JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}
           REFRESH_EXPIRES_IN=${{ secrets.REFRESH_EXPIRES_IN }}
           EOF
+
+      - name: Build (ensure lib/* exists)
+        run: npm run build && cd src
+
+      - name: Install Firebase CLI
+        run: npm i -g firebase-tools
+
       - name: Deploy Functions
         run: firebase deploy --only functions -P "$PROJECT_ID" --non-interactive --token "$FIREBASE_TOKEN"
