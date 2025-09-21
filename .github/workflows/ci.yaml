@@ -13,6 +13,10 @@ jobs:
 
     env:
       PROJECT_ID: ${{ secrets.PROJECT_ID }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      REFRESH_EXPIRES_IN: ${{ secrets.REFRESH_EXPIRES_IN }}
+      REFRESH_SECRET: ${{ secrets.REFRESH_SECRET }}
+      JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
 
     steps:
       - name: Checkout
