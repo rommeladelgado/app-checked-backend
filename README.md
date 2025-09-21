@@ -33,7 +33,7 @@ npm install
 
 ## 2) Variables de entorno (local)
 
-Crea un archivo **`functions/.env`** con tus valores:
+Create a functions/.env file with your values:
 
 ```dotenv
 # functions/.env
