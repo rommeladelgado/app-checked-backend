@@ -17,24 +17,25 @@ const defaultSignOptions: SignOptions = {
   expiresIn: (JWT_REFRESH_EXPIRES_IN as StringValue | number | null) || 900,
 };
 export const JwtService = {
-  signAccess(payload, options:SignOptions = defaultSignOptions) {
+  signAccess(payload: {sub: string}, options:SignOptions = defaultSignOptions) {
     return jwt.sign(
       payload,
-      JWT_SECRET,
+      JWT_SECRET as string,
       options
     );
   },
-  signRefresh(payload, options: SignOptions = defaultSignOptions) {
+  signRefresh(payload: {sub: string},
+    options: SignOptions = defaultSignOptions) {
     return jwt.sign(
       payload,
-      JWT_SECRET,
+      JWT_SECRET as string,
       options
     );
   },
-  verifyAccess(token) {
-    return jwt.verify(token, JWT_SECRET);
+  verifyAccess(token: string) {
+    return jwt.verify(token, JWT_SECRET as string);
   },
-  verifyRefresh(token) {
-    return jwt.verify(token, JWT_REFRESH_SECRET);
+  verifyRefresh(token: string) {
+    return jwt.verify(token, JWT_REFRESH_SECRET as string);
   },
 };

@@ -3,21 +3,15 @@ import {TaskRepository} from "../domain/task-repository";
 import {Task} from "../domain/entities/task";
 import {CreateTaskRequest} from "../application/models/create-task-request";
 import {UpdateTaskRequest} from "../application/models/update-task-request";
-import {db} from "../../../infra/db/firestore";
+import {db} from "@src/infra/db/firestore";
 import {firestore} from "firebase-admin";
-import QueryDocumentSnapshot = firestore.QueryDocumentSnapshot;
-
 
 export class TaskRepositoryImpl implements TaskRepository {
-
-  constructor() {
-  }
-
-  private getTaskCollection(userId: string) {
+  private getTaskCollection(userId: string): firestore.CollectionReference {
     return db.collection("users").doc(userId).collection("tasks");
   }
 
-  async create(task: CreateTaskRequest, userId: string): Promise<Task> {
+  async create(task: CreateTaskRequest, userId: string): Promise<Task | null> {
     const documentReference = await this.getTaskCollection(userId).add({
       title: task.title,
       description: task.description,
@@ -54,7 +48,7 @@ export class TaskRepositoryImpl implements TaskRepository {
     if (snap.exists) {
       const data = snap.data();
 
-      if (!data.active) return null;
+      if (!data?.active) return null;
       return new Task(
         data.title,
         data.description,
@@ -70,7 +64,7 @@ export class TaskRepositoryImpl implements TaskRepository {
     return null;
   }
 
-  
+
   async search(query: string, userId: string): Promise<Task[]> {
     const collection = this.getTaskCollection(userId);
 
@@ -103,14 +97,14 @@ export class TaskRepositoryImpl implements TaskRepository {
       if (!taskMap.has(document.id)) {
         const data = document.data();
         const task = new Task(
-          document.id,
           data.title,
           data.description,
           data.complete,
           data.active,
           data.createdAt,
           data.updatedAt,
-          data.completedAt
+          data.completedAt,
+          document.id,
         );
         taskMap.set(document.id, task);
       }
@@ -119,8 +113,10 @@ export class TaskRepositoryImpl implements TaskRepository {
     return [...taskMap.values()];
   }
 
-  async update(task: UpdateTaskRequest, userId: string): Promise<void> {
-    const documentReference = this.getTaskCollection(userId).doc(task.id);
+  async update(
+    task: UpdateTaskRequest, taskId: string, userId: string
+  ): Promise<Task | null> {
+    const documentReference = this.getTaskCollection(userId).doc(taskId);
     const snap = await documentReference.get();
     if (snap.exists) {
       const data = {
@@ -130,11 +126,15 @@ export class TaskRepositoryImpl implements TaskRepository {
         descriptionLower: (task.description ?? "").toLowerCase(),
         complete: false,
         active: true,
-        createdAt: task.createdAt,
+        createdAt: snap.data()?.createdAt,
         updatedAt: FieldValue.serverTimestamp(),
         completedAt: task.complete ? FieldValue.serverTimestamp():null,
       };
       await documentReference.set(data, {merge: true});
+
+      return this.findById(taskId, userId);
     }
+
+    return null;
   }
 }

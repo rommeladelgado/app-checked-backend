@@ -1,8 +1,9 @@
 
-import {CreateTaskRequest} from "./models/create-task-request";
-import {TaskRepository} from "../domain/task-repository";
-import {Task} from "../domain/entities/task";
-import {UseCase} from "../../../shared/application/use-case";
+import {UseCase} from "@src/shared/application/use-case";
+import {
+  CreateTaskRequest,
+} from "@src/modules/tasks/application/models/create-task-request";
+import {TaskRepository} from "@src/modules/tasks/domain/task-repository";
 
 
 export class CreateTaskUseCase implements UseCase<CreateTaskRequest, void> {

@@ -1,12 +1,8 @@
-
-import {CreateTaskRequest} from "./models/create-task-request";
 import {TaskRepository} from "../domain/task-repository";
-import {Task} from "../domain/entities/task";
-import {UseCase} from "../../../shared/application/use-case";
-import {UpdateTaskRequest} from "./models/update-task-request";
+import {UseCase} from "@src/shared/application/use-case";
 
 
-export class RemoveTaskUseCase implements UseCase<string, void>{
+export class RemoveTaskUseCase implements UseCase<string, void> {
   private taskRepository: TaskRepository;
   constructor(taskRepository: TaskRepository) {
     this.taskRepository = taskRepository;

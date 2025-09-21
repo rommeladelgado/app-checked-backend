@@ -1,50 +1,71 @@
 import {TaskRepositoryImpl}
-  from "../../../modules/tasks/infrastructure/task-repository-impl";
+  from "@src/modules/tasks/infrastructure/task-repository-impl";
 import {NextFunction, Request, Response}
   from "express";
 import {CreateTaskUseCase}
-  from "../../../modules/tasks/application/create-task.use-case";
+  from "@src/modules/tasks/application/create-task.use-case";
 import {UpdateTaskUseCase}
-  from "../../../modules/tasks/application/update-task.use-case";
+  from "@src/modules/tasks/application/update-task.use-case";
 import {FindByIdTaskUseCase}
-  from "../../../modules/tasks/application/find-by-id.use-case";
+  from "@src/modules/tasks/application/find-by-id.use-case";
 import {SearchTaskUseCase}
-  from "../../../modules/tasks/application/search-task-use-case";
+  from "@src/modules/tasks/application/search-task.use-case";
 import {RemoveTaskUseCase}
-  from "../../../modules/tasks/application/remove-task.use-case";
+  from "@src/modules/tasks/application/remove-task.use-case";
+import {
+  UpdateTaskRequest,
+} from "@src/modules/tasks/application/models/update-task-request";
+import {
+  CreateTaskRequest,
+} from "@src/modules/tasks/application/models/create-task-request";
 
 const taskRepository = new TaskRepositoryImpl();
+const createTask = new CreateTaskUseCase(taskRepository);
+const updateTask = new UpdateTaskUseCase(taskRepository);
+const findByIdTask = new FindByIdTaskUseCase(taskRepository);
+const searchTask = new SearchTaskUseCase(taskRepository);
+const removeTask = new RemoveTaskUseCase(taskRepository);
 
-async function create(req: Request, res: Response, next: NextFunction) {
+type Empty = Record<string, never>;
+async function create(
+  req: Request<Empty, unknown, CreateTaskRequest, Empty>,
+  res: Response,
+  next: NextFunction
+) {
   try {
-    const userId = (req as any).userId;
-    const createTaskUseCase = new CreateTaskUseCase(taskRepository);
-    await createTaskUseCase.execute({...req.body}, userId);
+    const userId = req.userId;
+    await createTask.execute({...req.body}, userId);
     res.status(204).end();
   } catch (e) {
     next(e);
   }
 }
 
-async function update(req: Request, res: Response, next: NextFunction) {
+async function update(
+  req: Request<Empty, unknown, UpdateTaskRequest, Empty>,
+  res: Response,
+  next: NextFunction
+) {
   try {
-    const userId = (req as any).userId;
+    const userId = req.userId;
     const taskId = req.params.taskId;
-    const updateTaskUseCase = new UpdateTaskUseCase(taskRepository);
-    await updateTaskUseCase.execute({...req.body}, taskId, userId);
+    await updateTask
+      .execute({...req.body as UpdateTaskRequest}, taskId, userId);
     res.status(204).end();
   } catch (e) {
     next(e);
   }
 }
 
-// eslint-disable-next-line max-len
-async function findById(req: Request, res: Response, next: NextFunction) {
+async function findById(
+  req: Request<Empty, unknown, unknown, Empty>,
+  res: Response,
+  next: NextFunction
+) {
   try {
-    const userId = (req as any).userId;
+    const userId = req.userId;
     const taskId = req.params.taskId;
-    const findByIdTaskUseCase = new FindByIdTaskUseCase(taskRepository);
-    const task= await findByIdTaskUseCase.execute(taskId, userId);
+    const task= await findByIdTask.execute(taskId, userId);
     if (task) {
       res.status(200).json(task);
     } else {
@@ -57,12 +78,15 @@ async function findById(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-async function search(req: Request, res: Response, next: NextFunction) {
+async function search(
+  req: Request<Empty, unknown, unknown, Empty>,
+  res: Response,
+  next: NextFunction
+) {
   try {
-    const userId = (req as any).userId;
+    const userId = req.userId;
     const query = req.params.query;
-    const searchTaskUseCase = new SearchTaskUseCase(taskRepository);
-    const tasks = await searchTaskUseCase.execute(query, userId);
+    const tasks = await searchTask.execute(query, userId);
 
     res.json(tasks);
   } catch (e) {
@@ -70,13 +94,15 @@ async function search(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-async function remove(req: Request, res: Response, next: NextFunction) {
+async function remove(
+  req: Request<Empty, unknown, unknown, Empty>,
+  res: Response,
+  next: NextFunction
+) {
   try {
-
-    const userId = (req as any).userId;
+    const userId = req.userId;
     const taskId = req.params.taskId;
-    const removeTaskUseCase = new RemoveTaskUseCase(taskRepository);
-    await removeTaskUseCase.execute(taskId, userId);
+    await removeTask.execute(taskId, userId);
     res.status(200).json({message: "Deleted Successfully"});
   } catch (e) {
     next(e);

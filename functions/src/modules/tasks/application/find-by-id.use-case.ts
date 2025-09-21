@@ -1,6 +1,6 @@
 import {TaskRepository} from "../domain/task-repository";
 import {Task} from "../domain/entities/task";
-import {UseCase} from "../../../shared/application/use-case";
+import {UseCase} from "@src/shared/application/use-case";
 
 
 export class FindByIdTaskUseCase implements UseCase<string, Task | null> {
