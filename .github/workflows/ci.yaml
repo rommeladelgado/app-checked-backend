@@ -29,6 +29,9 @@ jobs:
         run: npm ci
 
       - name: Lint
+        run: npm build
+        
+      - name: Lint
         run: npm run lint --if-present
 
       - name: Install Firebase CLI
