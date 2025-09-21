@@ -53,7 +53,7 @@ jobs:
   deploy:
     needs: develop
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.ref_name == 'main' && needs.develop.result == 'success' }}
+
     defaults:
       run:
         working-directory: functions
