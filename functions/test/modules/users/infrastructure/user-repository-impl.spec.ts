@@ -1,11 +1,11 @@
 import * as admin from "firebase-admin";
-import {db} from "../../../../src/infra/db/firestore";
+import {db} from "@src/infra/db/firestore";
 import {
   UserRepositoryImpl,
-} from "../../../../src/modules/users/infrastructure/user-repository-impl";
-import {Email} from "../../../../src/modules/users/domain/entities/email";
-import {User} from "../../../../src/modules/users/domain/entities/user";
-import {Password} from "../../../../src/modules/users/domain/entities/password";
+} from "@src/modules/users/infrastructure/user-repository-impl";
+import {Email} from "@src/modules/users/domain/entities/email";
+import {User} from "@src/modules/users/domain/entities/user";
+import {Password} from "@src/modules/users/domain/entities/password";
 import {UserRepository} from "@src/modules/users/domain/user-repository";
 if (!admin.app.length) {
   admin.initializeApp({projectId: "tests"});

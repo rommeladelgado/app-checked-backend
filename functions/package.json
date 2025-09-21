@@ -2,7 +2,7 @@
   "name": "functions",
   "scripts": {
     "lint": "eslint .",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "build:watch": "tsc --watch",
     "serve": "npm run build && firebase emulators:start",
     "shell": "npm run build && firebase functions:shell",

@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import {AppError} from "@src/api/http/types/types";
+
 export function errorHandler(
   err: unknown,
   _req: Request,
