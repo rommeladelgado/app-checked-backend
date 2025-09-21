@@ -70,6 +70,15 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
 
+      - name: Create .env for tests
+        run: |
+          cat > .env <<'EOF'
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          REFRESH_SECRET=${{ secrets.REFRESH_SECRET }}
+          JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}
+          REFRESH_EXPIRES_IN=${{ secrets.REFRESH_EXPIRES_IN }}
+          EOF
+
       - name: Use Node 20
         uses: actions/setup-node@v4
         with:
@@ -79,15 +88,6 @@ jobs:
 
       - name: Install deps
         run: npm ci
-
-      - name: Create .env for tests
-        run: |
-          cat > functions/.env <<'EOF'
-          JWT_SECRET=${{ secrets.JWT_SECRET }}
-          REFRESH_SECRET=${{ secrets.REFRESH_SECRET }}
-          JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }}
-          REFRESH_EXPIRES_IN=${{ secrets.REFRESH_EXPIRES_IN }}
-          EOF
 
       - name: Build (ensure lib/* exists)
         run: npm run build && cd src
