@@ -1,9 +1,10 @@
-name: CI
-
 on:
+  workflow_run:
+    workflows: ["ci"]
+    types: [completed]
+    branches: [main]
   pull_request:
-    branches: [ release/stable ]
-
+    branches: [release/stable]
 jobs:
   develop:
     runs-on: ubuntu-latest
